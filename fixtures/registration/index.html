@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Registration fixture</title>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Create an account</h1>
+      <form id="registration-form" action="./submit" method="post">
+        <label for="username">Username</label
+        ><input
+          id="username"
+          name="username"
+          minlength="4"
+          maxlength="12"
+          pattern="[A-Za-z0-9]+"
+          required
+          autocomplete="username"
+        />
+        <label for="email">Email</label
+        ><input id="email" name="email" type="email" required autocomplete="email" />
+        <label for="password">Password</label
+        ><input
+          id="password"
+          name="password"
+          type="password"
+          minlength="8"
+          required
+          autocomplete="new-password"
+        />
+        <button type="submit"><span aria-hidden="true">Create account</span></button>
+      </form>
+      <p id="form-status" data-outcome="" role="status"></p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Multilingual profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["displayName", "locale", "biography", "birthDate"],
+  "properties": {
+    "displayName": { "type": "string", "title": "Display name", "minLength": 1, "maxLength": 40 },
+    "locale": { "type": "string", "title": "Language", "enum": ["en", "ar", "ja"] },
+    "biography": { "type": "string", "title": "Biography", "maxLength": 120 },
+    "birthDate": { "type": "string", "title": "Birth date", "format": "date" },
+    "avatar": { "type": "string", "title": "Avatar", "format": "binary" }
+  }
+}

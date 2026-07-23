@@ -1,0 +1,14 @@
+{
+  "id": "checkout",
+  "formSelector": "#checkout-form",
+  "statusSelector": "#form-status",
+  "defaults": { "cardNumber": "4111111111111111", "postalCode": "123456", "country": "US" },
+  "businessCases": [
+    {
+      "name": "declined-card",
+      "values": { "cardNumber": "4000000000000002" },
+      "expectedOutcome": "rejected",
+      "expectedMessage": "Card was declined"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "multilingual-profile",
+  "formSelector": "#profile-form",
+  "statusSelector": "#form-status",
+  "defaults": {
+    "displayName": "قارئ",
+    "locale": "ar",
+    "biography": "قارئ ومختبر للواجهات",
+    "birthDate": "2000-02-29"
+  },
+  "businessCases": [
+    {
+      "name": "blocked-display-name",
+      "values": { "displayName": "blocked" },
+      "expectedOutcome": "rejected",
+      "expectedMessage": "Display name is unavailable"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cardNumber", "postalCode", "country"],
+  "properties": {
+    "cardNumber": { "type": "string", "title": "Card number", "pattern": "^[0-9]{16}$" },
+    "postalCode": { "type": "string", "title": "Postal code", "pattern": "^[0-9]{5}$" },
+    "country": { "type": "string", "title": "Country", "enum": ["US", "CA"] }
+  }
+}

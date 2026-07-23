@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["username", "email", "password"],
+  "properties": {
+    "username": {
+      "type": "string",
+      "title": "Username",
+      "minLength": 3,
+      "maxLength": 12,
+      "pattern": "^[A-Za-z0-9]+$"
+    },
+    "email": { "type": "string", "title": "Email", "format": "email" },
+    "password": { "type": "string", "title": "Password", "minLength": 8 }
+  }
+}

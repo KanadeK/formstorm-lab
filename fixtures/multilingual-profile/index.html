@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Multilingual profile fixture</title>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Profile</h1>
+      <form id="profile-form" action="./submit" method="post">
+        <label for="displayName">Display name</label
+        ><input
+          id="displayName"
+          name="displayName"
+          minlength="1"
+          maxlength="24"
+          required
+          autocomplete="nickname"
+        />
+        <label for="locale">Language</label
+        ><select id="locale" name="locale" required>
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="ja">日本語</option>
+        </select>
+        <label for="biography">Biography</label
+        ><textarea id="biography" name="biography" maxlength="120" required dir="auto"></textarea>
+        <label for="birthDate">Birth date</label
+        ><input id="birthDate" name="birthDate" type="date" required />
+        <label for="avatar">Avatar</label><input id="avatar" name="avatar" type="file" />
+        <button type="submit"><span aria-hidden="true">Save profile</span></button>
+      </form>
+      <p id="form-status" data-outcome="" role="status"></p>
+    </main>
+  </body>
+</html>

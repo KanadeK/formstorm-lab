@@ -1,0 +1,18 @@
+{
+  "id": "registration",
+  "formSelector": "#registration-form",
+  "statusSelector": "#form-status",
+  "defaults": {
+    "username": "reader42",
+    "email": "reader@example.test",
+    "password": "correct-horse"
+  },
+  "businessCases": [
+    {
+      "name": "reserved-username",
+      "values": { "username": "admin" },
+      "expectedOutcome": "rejected",
+      "expectedMessage": "Username is reserved"
+    }
+  ]
+}
