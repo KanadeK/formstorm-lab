@@ -23,7 +23,10 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "npm run build:node && npm run build:web",
+    "build:node": "tsup",
+    "build:web": "vite build",
+    "dev:web": "vite",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -33,7 +36,12 @@
     "test:integration": "vitest run tests/integration",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "demo": "node scripts/demo.mjs",
+    "package": "node scripts/package_release.mjs",
+    "release-check": "node scripts/release_check.mjs",
+    "scan:secrets": "node scripts/scan_secrets.mjs",
     "verify": "node scripts/verify.mjs",
+    "verify:core": "npm run format:check && npm run lint && npm run typecheck && npm run test:unit && npm run build:node",
     "prepack": "npm run build"
   },
   "dependencies": {

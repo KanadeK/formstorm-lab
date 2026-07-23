@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://formstorm.local/schemas/checkout",
+  "title": "Checkout",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["cardholderName", "postalCode", "deliveryDate", "receiptFileName"],
+  "properties": {
+    "cardholderName": {
+      "title": "Cardholder name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "postalCode": {
+      "title": "Postal code",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 12
+    },
+    "deliveryDate": {
+      "title": "Delivery date",
+      "type": "string",
+      "format": "date"
+    },
+    "receiptFileName": {
+      "title": "Receipt file name",
+      "description": "A user-provided file name without a directory path.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "giftMessage": {
+      "title": "Gift message",
+      "type": "string",
+      "maxLength": 240
+    }
+  }
+}

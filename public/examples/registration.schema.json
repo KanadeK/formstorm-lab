@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://formstorm.local/schemas/registration",
+  "title": "Account registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["displayName", "email", "password", "birthDate"],
+  "properties": {
+    "displayName": {
+      "title": "Display name",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 40
+    },
+    "email": {
+      "title": "Email address",
+      "type": "string",
+      "format": "email",
+      "maxLength": 254
+    },
+    "password": {
+      "title": "Password",
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 128
+    },
+    "birthDate": {
+      "title": "Birth date",
+      "type": "string",
+      "format": "date"
+    },
+    "locale": {
+      "title": "Preferred locale",
+      "type": "string",
+      "enum": ["en-US", "ar-EG", "ja-JP"]
+    }
+  }
+}

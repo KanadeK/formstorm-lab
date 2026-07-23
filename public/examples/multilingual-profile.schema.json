@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://formstorm.local/schemas/multilingual-profile",
+  "title": "Multilingual profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["fullName", "biography", "city"],
+  "properties": {
+    "fullName": {
+      "title": "Full name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "biography": {
+      "title": "Biography",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "city": {
+      "title": "City",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "writingDirection": {
+      "title": "Writing direction",
+      "type": "string",
+      "enum": ["ltr", "rtl", "auto"]
+    },
+    "website": {
+      "title": "Website",
+      "type": "string",
+      "format": "uri",
+      "maxLength": 2048
+    }
+  }
+}

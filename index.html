@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Generate deterministic form boundary cases from JSON Schema and inspect replay-ready sample evidence."
+    />
+    <meta name="theme-color" content="#f3f0ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#181716" media="(prefers-color-scheme: dark)" />
+    <title>FormStorm Lab Workbench</title>
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to workbench</a>
+
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="FormStorm Lab home">
+          <span class="brand-mark" aria-hidden="true">FS</span>
+          <span>FormStorm Lab</span>
+        </a>
+        <nav aria-label="Page">
+          <a href="#workbench">Workbench</a>
+          <a href="#sample-report">Sample report</a>
+        </nav>
+      </header>
+
+      <main id="main-content">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="context-label">Browser workbench</p>
+          <h1 id="page-title">Probe every form boundary.</h1>
+          <p>
+            Turn a JSON Schema into deterministic edge cases, inspect constraints, and keep every
+            generated input ready for replay.
+          </p>
+        </section>
+
+        <section id="workbench" class="workbench-grid" aria-label="Case generation workbench">
+          <form id="generator-form" class="control-panel" novalidate>
+            <div class="panel-heading">
+              <div>
+                <p class="step-label">Schema source</p>
+                <h2>Define the form contract</h2>
+              </div>
+              <span id="schema-state-badge" class="state-badge" data-state="loading">Loading</span>
+            </div>
+
+            <div class="field-block">
+              <label for="schema-example">Committed example</label>
+              <select id="schema-example" name="schema-example">
+                <option value="registration">Account registration</option>
+                <option value="checkout">Checkout</option>
+                <option value="multilingual-profile">Multilingual profile</option>
+              </select>
+              <p class="field-help">Selecting an example loads its repository-backed schema.</p>
+            </div>
+
+            <div class="field-block">
+              <label for="schema-input">JSON Schema</label>
+              <textarea
+                id="schema-input"
+                name="schema-input"
+                rows="15"
+                spellcheck="false"
+                aria-describedby="schema-help schema-status"
+                placeholder='{"type":"object","properties":{}}'
+              ></textarea>
+              <p id="schema-help" class="field-help">
+                Paste an object schema or load a local JSON file. Input stays in this browser.
+              </p>
+            </div>
+
+            <div class="field-block">
+              <label for="schema-upload">Upload schema file</label>
+              <input
+                id="schema-upload"
+                name="schema-upload"
+                type="file"
+                accept=".json,application/json"
+              />
+            </div>
+
+            <div
+              id="schema-status"
+              class="state-strip"
+              data-state="loading"
+              role="status"
+              aria-live="polite"
+            >
+              Loading the selected schema.
+            </div>
+
+            <section class="constraint-inspector" aria-labelledby="constraints-heading">
+              <div class="subheading-row">
+                <h3 id="constraints-heading">Field constraints</h3>
+                <span id="field-count">0 fields</span>
+              </div>
+              <div id="constraints-empty" class="compact-empty">
+                Load a valid object schema to inspect its fields.
+              </div>
+              <div id="constraint-list" class="constraint-list" aria-live="polite"></div>
+            </section>
+
+            <fieldset class="generation-settings">
+              <legend>Generation setup</legend>
+
+              <div class="field-block">
+                <label for="seed-input">Deterministic seed</label>
+                <input
+                  id="seed-input"
+                  name="seed"
+                  type="number"
+                  min="0"
+                  max="4294967295"
+                  step="1"
+                  value="20260724"
+                  inputmode="numeric"
+                />
+                <p class="field-help">
+                  The same schema, seed, and dimensions produce the same cases.
+                </p>
+              </div>
+
+              <fieldset class="dimension-fieldset">
+                <legend>Boundary dimensions</legend>
+                <div class="dimension-grid">
+                  <label>
+                    <input type="checkbox" name="dimension" value="length" checked />
+                    <span>Length limits</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="dimension" value="unicode" checked />
+                    <span>Unicode</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="dimension" value="rtl" checked />
+                    <span>Right-to-left text</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="dimension" value="whitespace" checked />
+                    <span>Whitespace and blank</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="dimension" value="date" checked />
+                    <span>Date boundaries</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="dimension" value="filename" checked />
+                    <span>File names</span>
+                  </label>
+                </div>
+              </fieldset>
+            </fieldset>
+
+            <button id="generate-button" class="primary-button" type="submit">
+              Generate cases
+            </button>
+            <p class="keyboard-hint">
+              <kbd>Ctrl</kbd> <span>+</span> <kbd>Enter</kbd> also generates.
+            </p>
+          </form>
+
+          <section
+            id="results-panel"
+            class="results-panel"
+            aria-labelledby="results-heading"
+            aria-busy="false"
+          >
+            <div class="panel-heading result-heading">
+              <div>
+                <p class="step-label">Generated evidence</p>
+                <h2 id="results-heading" tabindex="-1">Boundary cases</h2>
+              </div>
+              <button id="download-button" class="secondary-button" type="button" disabled>
+                Download cases JSON
+              </button>
+            </div>
+
+            <div
+              id="generation-status"
+              class="state-strip"
+              data-state="empty"
+              role="status"
+              aria-live="polite"
+            >
+              No cases yet. Choose dimensions and generate a deterministic set.
+            </div>
+
+            <div id="case-summary" class="case-summary" hidden>
+              <dl>
+                <div>
+                  <dt>Cases</dt>
+                  <dd id="summary-case-count">0</dd>
+                </div>
+                <div>
+                  <dt>Fields</dt>
+                  <dd id="summary-field-count">0</dd>
+                </div>
+                <div>
+                  <dt>Seed</dt>
+                  <dd id="summary-seed">0</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div id="cases-empty" class="results-empty">
+              <strong>Generation output will appear here.</strong>
+              <p>
+                Each case includes its field, boundary rule, expected validity, and replay value.
+              </p>
+            </div>
+            <ol id="case-list" class="case-list" aria-label="Generated boundary cases"></ol>
+
+            <aside class="static-boundary" aria-labelledby="static-boundary-heading">
+              <h3 id="static-boundary-heading">Static site boundary</h3>
+              <p>
+                This page generates cases locally. GitHub Pages cannot launch Playwright or run axe
+                against a target. Use the CLI for browser execution, screenshots, traces, and
+                accessibility evidence.
+              </p>
+              <code>npx formstorm scan --help</code>
+            </aside>
+          </section>
+        </section>
+
+        <section id="sample-report" class="report-browser" aria-labelledby="report-heading">
+          <div class="report-intro">
+            <p class="step-label">Committed evidence</p>
+            <h2 id="report-heading">Browse a sample report</h2>
+            <p>
+              This view reads a checked-in report asset with findings, browser outcomes, and
+              security events from the local fixture workflow.
+            </p>
+          </div>
+
+          <div class="report-toolbar">
+            <div class="field-block">
+              <label for="report-filter">Finding type</label>
+              <select id="report-filter">
+                <option value="all">All findings</option>
+                <option value="validation-mismatch">Validation and boundary</option>
+                <option value="accessibility">Accessibility</option>
+                <option value="runtime">Runtime</option>
+              </select>
+            </div>
+            <a
+              id="report-download"
+              class="secondary-button"
+              href="./reports/sample-report.json"
+              download="formstorm-sample-report.json"
+            >
+              Download report JSON
+            </a>
+          </div>
+
+          <div
+            id="report-status"
+            class="state-strip"
+            data-state="loading"
+            role="status"
+            aria-live="polite"
+          >
+            Loading the committed sample report.
+          </div>
+
+          <div id="report-content" class="report-content" hidden>
+            <dl class="report-metadata">
+              <div>
+                <dt>Status</dt>
+                <dd id="report-run-status">Unknown</dd>
+              </div>
+              <div>
+                <dt>Target</dt>
+                <dd id="report-target">Unknown</dd>
+              </div>
+              <div>
+                <dt>Seed</dt>
+                <dd id="report-seed">Unknown</dd>
+              </div>
+              <div>
+                <dt>Findings</dt>
+                <dd id="report-finding-count">0</dd>
+              </div>
+            </dl>
+            <div id="report-empty" class="compact-empty" hidden>No findings match this filter.</div>
+            <ol id="report-findings" class="finding-list" aria-label="Sample report findings"></ol>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>Deterministic inputs. Local-first generation. Replay-ready evidence.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/web/main.ts"></script>
+  </body>
+</html>

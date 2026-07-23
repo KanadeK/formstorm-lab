@@ -1,0 +1,19 @@
+{
+  "examples": [
+    {
+      "id": "registration",
+      "label": "Account registration",
+      "path": "examples/registration.schema.json"
+    },
+    {
+      "id": "checkout",
+      "label": "Checkout",
+      "path": "examples/checkout.schema.json"
+    },
+    {
+      "id": "multilingual-profile",
+      "label": "Multilingual profile",
+      "path": "examples/multilingual-profile.schema.json"
+    }
+  ]
+}
