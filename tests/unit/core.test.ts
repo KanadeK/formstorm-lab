@@ -93,9 +93,7 @@ describe("strict domain models and schema extraction", () => {
 
   it("rejects malformed schemas and unknown model properties", () => {
     expect(() => extractFormModel(null)).toThrow("root must be an object");
-    expect(() => extractFormModel({ type: "array" })).toThrow(
-      "root must have type object",
-    );
+    expect(() => extractFormModel({ type: "array" })).toThrow("root must have type object");
     expect(() =>
       FormModelSchema.parse({
         version: "0.1.0",
@@ -235,9 +233,9 @@ describe("deterministic seeded boundary generation", () => {
     expect(cases.find((testCase) => testCase.id === "email:email:missing-at")?.expectation).toBe(
       "reject",
     );
-    expect(cases.find((testCase) => testCase.id === "role:select:invalid-option")?.expectation).toBe(
-      "reject",
-    );
+    expect(
+      cases.find((testCase) => testCase.id === "role:select:invalid-option")?.expectation,
+    ).toBe("reject");
     expect(cases.find((testCase) => testCase.dimension === "rtl")?.assignments.bio).toMatch(
       /[\u0590-\u08ff]/u,
     );
@@ -245,8 +243,7 @@ describe("deterministic seeded boundary generation", () => {
       /🙂|\u0301/u,
     );
     expect(
-      cases.find((testCase) => testCase.id === "upload:filename:unicode")?.assignments
-        .upload,
+      cases.find((testCase) => testCase.id === "upload:filename:unicode")?.assignments.upload,
     ).toContain("文件");
   });
 
@@ -267,12 +264,8 @@ describe("deterministic seeded boundary generation", () => {
     const form = extractFormModel(schema).form;
     const oracle = createSchemaOracle(schema);
     const cases = generateBoundaryCases(form, { seed: 9, oracle });
-    expect(cases.find((testCase) => testCase.variant === "at-min")?.expectation).toBe(
-      "accept",
-    );
-    expect(cases.find((testCase) => testCase.dimension === "rtl")?.expectation).toBe(
-      "reject",
-    );
+    expect(cases.find((testCase) => testCase.variant === "at-min")?.expectation).toBe("accept");
+    expect(cases.find((testCase) => testCase.dimension === "rtl")?.expectation).toBe("reject");
   });
 });
 
@@ -328,21 +321,13 @@ describe("civil dates and Ajv validation", () => {
 
 describe("policy, outcome classification, minimization, and redaction", () => {
   it("normalizes and enforces exact allowlisted origins", () => {
-    expect(normalizeOrigin("HTTPS://EXAMPLE.COM:443/form?q=1")).toBe(
-      "https://example.com",
-    );
-    expect(
-      isTargetAllowed("http://localhost:4173/form", ["http://localhost:4173"]),
-    ).toBe(true);
-    expect(
-      isTargetAllowed("https://example.com.evil.test", ["https://example.com"]),
-    ).toBe(false);
+    expect(normalizeOrigin("HTTPS://EXAMPLE.COM:443/form?q=1")).toBe("https://example.com");
+    expect(isTargetAllowed("http://localhost:4173/form", ["http://localhost:4173"])).toBe(true);
+    expect(isTargetAllowed("https://example.com.evil.test", ["https://example.com"])).toBe(false);
     expect(() =>
       assertTargetAllowed("https://example.com.evil.test", ["https://example.com"]),
     ).toThrow(AllowlistPolicyError);
-    expect(() => normalizeOrigin("file:///tmp/form.html")).toThrow(
-      "Only http and https",
-    );
+    expect(() => normalizeOrigin("file:///tmp/form.html")).toThrow("Only http and https");
   });
 
   it("distinguishes expected business rejection from a runtime crash", () => {
@@ -359,21 +344,17 @@ describe("policy, outcome classification, minimization, and redaction", () => {
       }),
     ).toBe("runtime-crash");
     expect(classifyOutcome("accept", { kind: "accepted" })).toBe("passed");
-    expect(
-      classifyOutcome("accept", { kind: "rejected", validationMessages: [] }),
-    ).toBe("unexpected-rejection");
-    expect(classifyOutcome("reject", { kind: "accepted" })).toBe(
-      "unexpected-acceptance",
+    expect(classifyOutcome("accept", { kind: "rejected", validationMessages: [] })).toBe(
+      "unexpected-rejection",
     );
+    expect(classifyOutcome("reject", { kind: "accepted" })).toBe("unexpected-acceptance");
     expect(
       classifyOutcome("observe", {
         kind: "rejected",
         validationMessages: ["record only"],
       }),
     ).toBe("observed");
-    expect(
-      classifyOutcome("accept", { kind: "timeout", timeoutMs: 1000 }),
-    ).toBe("timeout");
+    expect(classifyOutcome("accept", { kind: "timeout", timeoutMs: 1000 })).toBe("timeout");
     expect(isFailureClassification("passed")).toBe(false);
     for (const classification of [
       "unexpected-acceptance",
@@ -389,9 +370,7 @@ describe("policy, outcome classification, minimization, and redaction", () => {
         error: { name: "TypeError", message: "boom" },
       }),
     ).toBe("runtime-crash:TypeError:boom");
-    expect(
-      failureSignature("timeout", { kind: "timeout", timeoutMs: 500 }),
-    ).toBe("timeout:500");
+    expect(failureSignature("timeout", { kind: "timeout", timeoutMs: 500 })).toBe("timeout:500");
     expect(
       failureSignature("unexpected-rejection", {
         kind: "rejected",
@@ -404,25 +383,13 @@ describe("policy, outcome classification, minimization, and redaction", () => {
 
   it("rejects malformed policy and minimizer inputs on their explicit branches", async () => {
     expect(() => normalizeOrigin("not a url")).toThrow("Invalid target URL");
-    expect(() => normalizeOrigin("https://user:pass@example.test")).toThrow(
-      "embedded credentials",
-    );
-    expect(() => assertTargetAllowed("https://example.test", [])).toThrow(
-      "(none)",
-    );
+    expect(() => normalizeOrigin("https://user:pass@example.test")).toThrow("embedded credentials");
+    expect(() => assertTargetAllowed("https://example.test", [])).toThrow("(none)");
     await expect(
-      minimizeFailure(
-        { value: "ok" },
-        () => ({ failed: false }),
-        { maxAttempts: 4 },
-      ),
+      minimizeFailure({ value: "ok" }, () => ({ failed: false }), { maxAttempts: 4 }),
     ).rejects.toThrow("initial input must fail");
     await expect(
-      minimizeFailure(
-        { value: "x" },
-        () => ({ failed: true, signature: "x" }),
-        { maxAttempts: 0 },
-      ),
+      minimizeFailure({ value: "x" }, () => ({ failed: true, signature: "x" }), { maxAttempts: 0 }),
     ).rejects.toThrow("maxAttempts");
   });
 
@@ -491,9 +458,9 @@ describe("defensive validation branches", () => {
       constraints: {},
       provenance: [],
     };
-    expect(() =>
-      FieldModelSchema.parse({ ...base, kind: "select", options: [] }),
-    ).toThrow("at least one option");
+    expect(() => FieldModelSchema.parse({ ...base, kind: "select", options: [] })).toThrow(
+      "at least one option",
+    );
     expect(() =>
       FieldModelSchema.parse({
         ...base,
