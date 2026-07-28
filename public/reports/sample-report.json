@@ -1,0 +1,899 @@
+{
+  "allowlist": ["http://127.0.0.1:56629"],
+  "artifacts": [
+    {
+      "kind": "screenshot",
+      "path": "scan.png"
+    },
+    {
+      "kind": "trace",
+      "path": "trace.zip"
+    },
+    {
+      "kind": "schema",
+      "path": "input.schema.json"
+    },
+    {
+      "kind": "json",
+      "path": "report.json"
+    },
+    {
+      "kind": "html",
+      "path": "report.html"
+    },
+    {
+      "kind": "junit",
+      "path": "report.junit.xml"
+    }
+  ],
+  "boundaryResults": [
+    {
+      "caseId": "email:length:empty",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 130.58359999999993,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please fill out this field."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:length:empty\"",
+      "variant": "empty"
+    },
+    {
+      "caseId": "email:unicode:combining",
+      "classification": "expected-rejection",
+      "dimension": "unicode",
+      "durationMs": 81.77530000000002,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. 'Café-XFP' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:unicode:combining\"",
+      "variant": "combining"
+    },
+    {
+      "caseId": "email:unicode:emoji",
+      "classification": "expected-rejection",
+      "dimension": "unicode",
+      "durationMs": 81.98129999999992,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. '🙂🧪-BKf' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:unicode:emoji\"",
+      "variant": "emoji"
+    },
+    {
+      "caseId": "email:rtl:arabic",
+      "classification": "expected-rejection",
+      "dimension": "rtl",
+      "durationMs": 71.77379999999994,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. 'مرحبا-cFn' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:rtl:arabic\"",
+      "variant": "arabic"
+    },
+    {
+      "caseId": "email:rtl:hebrew",
+      "classification": "expected-rejection",
+      "dimension": "rtl",
+      "durationMs": 96.3261,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. 'שלום-wHm' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:rtl:hebrew\"",
+      "variant": "hebrew"
+    },
+    {
+      "caseId": "email:whitespace:spaces",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 91.60239999999999,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please fill out this field."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:whitespace:spaces\"",
+      "variant": "spaces"
+    },
+    {
+      "caseId": "email:whitespace:mixed",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 70.45420000000013,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. ' ' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:whitespace:mixed\"",
+      "variant": "mixed"
+    },
+    {
+      "caseId": "email:length:long",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 70.38539999999989,
+      "expectation": "reject",
+      "fieldId": "email",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "email: Please include an '@' in the email address. 'bAgeQhUHEfgmvFrsIxfQyDpEZXOYPNJdVQAqNHUOXLmcEtgkgiUXfCTLtitUtijAKcycJNtTYJAIoeDkZvOrWWXqznNhyeiuqsxWevnsqrrgBXWbvkioIpGAsCPkmnnsfMPWRTDsISPWlUoJRfqOojRBpVmlFVPUWwxHLIZiMNKRYvdIqNlyEimWzuPPeWIwGYuJUmApElcojCaOxijUgBBChKLOXlmYmHLUTYasLCyVOGdJQTufVDFvtGJsdNjf' is missing an '@'."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"email:length:long\"",
+      "variant": "long"
+    },
+    {
+      "caseId": "password:length:empty",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 76.2215000000001,
+      "expectation": "reject",
+      "fieldId": "password",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "password: Please fill out this field."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:empty\"",
+      "variant": "empty"
+    },
+    {
+      "caseId": "password:unicode:combining",
+      "classification": "unexpected-rejection",
+      "dimension": "unicode",
+      "durationMs": 941.7840000000001,
+      "expectation": "accept",
+      "fieldId": "password",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "aaa"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:unicode:combining\"",
+      "variant": "combining"
+    },
+    {
+      "caseId": "password:unicode:emoji",
+      "classification": "expected-rejection",
+      "dimension": "unicode",
+      "durationMs": 78.62339999999995,
+      "expectation": "reject",
+      "fieldId": "password",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:unicode:emoji\"",
+      "variant": "emoji"
+    },
+    {
+      "caseId": "password:rtl:arabic",
+      "classification": "unexpected-rejection",
+      "dimension": "rtl",
+      "durationMs": 879.2626,
+      "expectation": "accept",
+      "fieldId": "password",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "aaa"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:rtl:arabic\"",
+      "variant": "arabic"
+    },
+    {
+      "caseId": "password:rtl:hebrew",
+      "classification": "unexpected-rejection",
+      "dimension": "rtl",
+      "durationMs": 1052.3688999999995,
+      "expectation": "accept",
+      "fieldId": "password",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "aaa"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:rtl:hebrew\"",
+      "variant": "hebrew"
+    },
+    {
+      "caseId": "password:whitespace:spaces",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 98.31880000000001,
+      "expectation": "reject",
+      "fieldId": "password",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "password: Please lengthen this text to 8 characters or more (you are currently using 5 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:whitespace:spaces\"",
+      "variant": "spaces"
+    },
+    {
+      "caseId": "password:whitespace:mixed",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 101.45320000000083,
+      "expectation": "reject",
+      "fieldId": "password",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "password: Please lengthen this text to 8 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:whitespace:mixed\"",
+      "variant": "mixed"
+    },
+    {
+      "caseId": "password:length:below-min",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 159.45209999999952,
+      "expectation": "reject",
+      "fieldId": "password",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters).",
+          "password: Please lengthen this text to 8 characters or more (you are currently using 7 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:below-min\"",
+      "variant": "below-min"
+    },
+    {
+      "caseId": "password:length:at-min",
+      "classification": "unexpected-rejection",
+      "dimension": "length",
+      "durationMs": 1624.9529000000002,
+      "expectation": "accept",
+      "fieldId": "password",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "aaa"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:at-min\"",
+      "variant": "at-min"
+    },
+    {
+      "caseId": "password:length:long",
+      "classification": "unexpected-rejection",
+      "dimension": "length",
+      "durationMs": 1464.6079999999993,
+      "expectation": "accept",
+      "fieldId": "password",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "aaa"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:long\"",
+      "variant": "long"
+    },
+    {
+      "caseId": "username:length:empty",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 109.38950000000114,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please fill out this field."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:empty\"",
+      "variant": "empty"
+    },
+    {
+      "caseId": "username:unicode:combining",
+      "classification": "expected-rejection",
+      "dimension": "unicode",
+      "durationMs": 101.94930000000022,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:unicode:combining\"",
+      "variant": "combining"
+    },
+    {
+      "caseId": "username:unicode:emoji",
+      "classification": "expected-rejection",
+      "dimension": "unicode",
+      "durationMs": 111.02269999999953,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:unicode:emoji\"",
+      "variant": "emoji"
+    },
+    {
+      "caseId": "username:rtl:arabic",
+      "classification": "expected-rejection",
+      "dimension": "rtl",
+      "durationMs": 127.67100000000028,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:rtl:arabic\"",
+      "variant": "arabic"
+    },
+    {
+      "caseId": "username:rtl:hebrew",
+      "classification": "expected-rejection",
+      "dimension": "rtl",
+      "durationMs": 115.23660000000018,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:rtl:hebrew\"",
+      "variant": "hebrew"
+    },
+    {
+      "caseId": "username:whitespace:spaces",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 114.2474000000002,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:whitespace:spaces\"",
+      "variant": "spaces"
+    },
+    {
+      "caseId": "username:whitespace:mixed",
+      "classification": "expected-rejection",
+      "dimension": "whitespace",
+      "durationMs": 114.39350000000013,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": ["username: Please match the requested format."]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:whitespace:mixed\"",
+      "variant": "mixed"
+    },
+    {
+      "caseId": "username:length:below-min",
+      "classification": "expected-rejection",
+      "dimension": "length",
+      "durationMs": 103.38090000000011,
+      "expectation": "reject",
+      "fieldId": "username",
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 2 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:below-min\"",
+      "variant": "below-min"
+    },
+    {
+      "caseId": "username:length:at-min",
+      "classification": "unexpected-rejection",
+      "dimension": "length",
+      "durationMs": 1544.1989000000012,
+      "expectation": "accept",
+      "fieldId": "username",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "KXv"
+      },
+      "observed": {
+        "kind": "rejected",
+        "message": "Native form validation rejected the input.",
+        "validationMessages": [
+          "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+        ]
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:at-min\"",
+      "variant": "at-min"
+    },
+    {
+      "caseId": "username:length:at-max",
+      "classification": "passed",
+      "dimension": "length",
+      "durationMs": 193.59519999999975,
+      "expectation": "accept",
+      "fieldId": "username",
+      "observed": {
+        "kind": "accepted",
+        "message": "Registration accepted"
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:at-max\"",
+      "variant": "at-max"
+    },
+    {
+      "caseId": "username:length:above-max",
+      "classification": "unexpected-acceptance",
+      "dimension": "length",
+      "durationMs": 1672.7864000000009,
+      "expectation": "reject",
+      "fieldId": "username",
+      "minimalInput": {
+        "email": "fr@ex",
+        "password": "[REDACTED]",
+        "username": "fiCrMKVtFNXGb"
+      },
+      "observed": {
+        "kind": "accepted",
+        "message": "Registration accepted"
+      },
+      "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:above-max\"",
+      "variant": "above-max"
+    }
+  ],
+  "browserOutcomes": [
+    {
+      "actualMessage": "Username is reserved",
+      "actualOutcome": "rejected",
+      "caseName": "reserved-username",
+      "expectedOutcome": "rejected",
+      "matchedExpectation": true
+    }
+  ],
+  "findings": [
+    {
+      "evidence": {
+        "domValue": 4,
+        "locator": {
+          "css": "#username",
+          "index": 0
+        },
+        "minimalInput": {
+          "username": "aaa"
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\"",
+        "schemaValue": 3
+      },
+      "field": "username",
+      "id": "validation-username-minLength-1",
+      "kind": "validation-mismatch",
+      "message": "username.minLength differs: schema=3, DOM=4",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "domValue": "[A-Za-z0-9]+",
+        "locator": {
+          "css": "#username",
+          "index": 0
+        },
+        "minimalInput": {
+          "username": "\"^[A-Za-z0-9]+$\""
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\"",
+        "schemaValue": "^[A-Za-z0-9]+$"
+      },
+      "field": "username",
+      "id": "validation-username-pattern-2",
+      "kind": "validation-mismatch",
+      "message": "username.pattern differs: schema=\"^[A-Za-z0-9]+$\", DOM=\"[A-Za-z0-9]+\"",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "help": "Buttons must have discernible text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=playwright",
+        "impact": "critical",
+        "nodes": [
+          {
+            "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "html": "<button type=\"submit\"><span aria-hidden=\"true\">Create account</span></button>",
+            "target": ["button"]
+          }
+        ],
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\""
+      },
+      "id": "axe-button-name",
+      "kind": "accessibility",
+      "message": "Ensure buttons have discernible text",
+      "ruleId": "button-name",
+      "severity": "error",
+      "target": ["button"]
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "unicode",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "aaa"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:unicode:combining\"",
+        "variant": "combining"
+      },
+      "field": "password",
+      "id": "boundary-password:unicode:combining",
+      "kind": "validation-mismatch",
+      "message": "Combining Unicode sequence: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "rtl",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "aaa"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:rtl:arabic\"",
+        "variant": "arabic"
+      },
+      "field": "password",
+      "id": "boundary-password:rtl:arabic",
+      "kind": "validation-mismatch",
+      "message": "Right-to-left Arabic input: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "rtl",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "aaa"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:rtl:hebrew\"",
+        "variant": "hebrew"
+      },
+      "field": "password",
+      "id": "boundary-password:rtl:hebrew",
+      "kind": "validation-mismatch",
+      "message": "Right-to-left Hebrew input: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "length",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "aaa"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:at-min\"",
+        "variant": "at-min"
+      },
+      "field": "password",
+      "id": "boundary-password:length:at-min",
+      "kind": "validation-mismatch",
+      "message": "Exactly minLength code points: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "length",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "aaa"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"password:length:long\"",
+        "variant": "long"
+      },
+      "field": "password",
+      "id": "boundary-password:length:long",
+      "kind": "validation-mismatch",
+      "message": "Long unconstrained string: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-rejection",
+        "dimension": "length",
+        "expectation": "accept",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "KXv"
+        },
+        "observed": {
+          "kind": "rejected",
+          "message": "Native form validation rejected the input.",
+          "validationMessages": [
+            "username: Please lengthen this text to 4 characters or more (you are currently using 3 characters)."
+          ]
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:at-min\"",
+        "variant": "at-min"
+      },
+      "field": "username",
+      "id": "boundary-username:length:at-min",
+      "kind": "validation-mismatch",
+      "message": "Exactly minLength code points: unexpected-rejection",
+      "severity": "error"
+    },
+    {
+      "evidence": {
+        "classification": "unexpected-acceptance",
+        "dimension": "length",
+        "expectation": "reject",
+        "minimalInput": {
+          "email": "fr@ex",
+          "password": "[REDACTED]",
+          "username": "fiCrMKVtFNXGb"
+        },
+        "observed": {
+          "kind": "accepted",
+          "message": "Registration accepted"
+        },
+        "replayCommand": "formstorm replay --report \"reports\\\\demo\\\\registration\\\\report.json\" --case-id \"username:length:above-max\"",
+        "variant": "above-max"
+      },
+      "field": "username",
+      "id": "boundary-username:length:above-max",
+      "kind": "validation-mismatch",
+      "message": "One code point above maxLength: unexpected-acceptance",
+      "severity": "error"
+    }
+  ],
+  "fixtureId": "registration",
+  "forms": [
+    {
+      "action": "http://127.0.0.1:56629/registration/submit",
+      "fields": [
+        {
+          "autocomplete": "username",
+          "constraints": {
+            "maxLength": 12,
+            "minLength": 4,
+            "pattern": "[A-Za-z0-9]+",
+            "required": true
+          },
+          "disabled": false,
+          "formIndex": 0,
+          "id": "username",
+          "inputType": "text",
+          "label": "Username",
+          "labelSource": "label",
+          "locator": {
+            "css": "#username",
+            "index": 0
+          },
+          "multiple": false,
+          "name": "username",
+          "order": 0,
+          "readOnly": false,
+          "tagName": "input"
+        },
+        {
+          "autocomplete": "email",
+          "constraints": {
+            "required": true
+          },
+          "disabled": false,
+          "formIndex": 0,
+          "id": "email",
+          "inputType": "email",
+          "label": "Email",
+          "labelSource": "label",
+          "locator": {
+            "css": "#email",
+            "index": 0
+          },
+          "multiple": false,
+          "name": "email",
+          "order": 1,
+          "readOnly": false,
+          "tagName": "input"
+        },
+        {
+          "autocomplete": "new-password",
+          "constraints": {
+            "minLength": 8,
+            "required": true
+          },
+          "disabled": false,
+          "formIndex": 0,
+          "id": "password",
+          "inputType": "password",
+          "label": "Password",
+          "labelSource": "label",
+          "locator": {
+            "css": "#password",
+            "index": 0
+          },
+          "multiple": false,
+          "name": "password",
+          "order": 2,
+          "readOnly": false,
+          "tagName": "input"
+        }
+      ],
+      "id": "registration-form",
+      "index": 0,
+      "locator": {
+        "css": "#registration-form",
+        "index": 0
+      },
+      "method": "post"
+    }
+  ],
+  "generatedAt": "2026-07-28T01:37:48.925Z",
+  "schemaPath": "input.schema.json",
+  "schemaVersion": "1",
+  "securityEvents": [],
+  "seed": 4501,
+  "status": "completed-with-findings",
+  "summary": {
+    "accessibilityViolations": 1,
+    "boundaryCases": 29,
+    "boundaryFailures": 7,
+    "expectedRejections": 21,
+    "findings": 10,
+    "runtimeErrors": 0,
+    "securityBlocks": 0,
+    "validationMismatches": 9
+  },
+  "target": "fixture://registration/index.html"
+}

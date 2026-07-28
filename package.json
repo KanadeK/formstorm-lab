@@ -26,6 +26,7 @@
     "build": "npm run build:node && npm run build:web",
     "build:node": "tsup",
     "build:web": "vite build",
+    "capture:screenshot": "node scripts/capture_screenshot.mjs",
     "dev:web": "vite",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
