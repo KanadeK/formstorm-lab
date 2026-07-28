@@ -23,16 +23,12 @@ export function classifyOutcome(
     return "observed";
   }
   if (expected === "reject") {
-    return observed.kind === "rejected"
-      ? "expected-rejection"
-      : "unexpected-acceptance";
+    return observed.kind === "rejected" ? "expected-rejection" : "unexpected-acceptance";
   }
   return observed.kind === "accepted" ? "passed" : "unexpected-rejection";
 }
 
-export function isFailureClassification(
-  classification: OutcomeClassification,
-): boolean {
+export function isFailureClassification(classification: OutcomeClassification): boolean {
   return (
     classification === "unexpected-acceptance" ||
     classification === "unexpected-rejection" ||

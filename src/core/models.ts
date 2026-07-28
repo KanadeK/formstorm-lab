@@ -9,14 +9,7 @@ export type JsonValue = z.infer<typeof JsonValueSchema>;
 
 export const SeedSchema = z.number().int().min(0).max(0xffff_ffff);
 
-export const FieldKindSchema = z.enum([
-  "text",
-  "email",
-  "number",
-  "date",
-  "file",
-  "select",
-]);
+export const FieldKindSchema = z.enum(["text", "email", "number", "date", "file", "select"]);
 export type FieldKind = z.infer<typeof FieldKindSchema>;
 
 export const BoundaryDimensionSchema = z.enum([
@@ -58,8 +51,14 @@ export const FieldConstraintsSchema = z
     integer: z.boolean().optional(),
     pattern: z.string().optional(),
     format: z.enum(["email", "date", "binary"]).optional(),
-    minDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u).optional(),
-    maxDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u).optional(),
+    minDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/u)
+      .optional(),
+    maxDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/u)
+      .optional(),
     defaultValue: JsonValueSchema.optional(),
     examples: z.array(JsonValueSchema).optional(),
   })
@@ -276,7 +275,10 @@ export type RunResult = z.infer<typeof RunResultSchema>;
 export const ReportArtifactSchema = z.strictObject({
   kind: z.enum(["screenshot", "trace", "axe", "replay", "log"]),
   path: z.string().min(1),
-  sha256: z.string().regex(/^[a-f0-9]{64}$/u).optional(),
+  sha256: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/u)
+    .optional(),
 });
 export type ReportArtifact = z.infer<typeof ReportArtifactSchema>;
 
@@ -327,8 +329,7 @@ export const RunReportSchema = z
     if (classified !== report.summary.total) {
       context.addIssue({
         code: "custom",
-        message:
-          "passed + expectedRejections + observed + failures must match summary.total",
+        message: "passed + expectedRejections + observed + failures must match summary.total",
         path: ["summary"],
       });
     }

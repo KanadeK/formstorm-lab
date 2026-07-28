@@ -53,12 +53,8 @@ export function createSchemaOracle(schema: unknown): SchemaValidityOracle {
     strict: false,
     validateFormats: true,
   };
-  const ajv = dialect.includes("2020-12")
-    ? new Ajv2020(options)
-    : new Ajv(options);
-  const installFormats = addFormatsModule.default as unknown as (
-    instance: unknown,
-  ) => unknown;
+  const ajv = dialect.includes("2020-12") ? new Ajv2020(options) : new Ajv(options);
+  const installFormats = addFormatsModule.default as unknown as (instance: unknown) => unknown;
   installFormats(ajv);
 
   let validator: ValidateFunction;
@@ -66,9 +62,7 @@ export function createSchemaOracle(schema: unknown): SchemaValidityOracle {
     validator = ajv.compile(schema as object | boolean);
   } catch (error) {
     throw new SchemaCompilationError(
-      `Unable to compile JSON Schema: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
+      `Unable to compile JSON Schema: ${error instanceof Error ? error.message : String(error)}`,
       error,
     );
   }
@@ -98,9 +92,6 @@ export function createSchemaOracle(schema: unknown): SchemaValidityOracle {
   });
 }
 
-export function validateAgainstSchema(
-  schema: unknown,
-  data: unknown,
-): SchemaValidationResult {
+export function validateAgainstSchema(schema: unknown, data: unknown): SchemaValidationResult {
   return createSchemaOracle(schema).validate(data);
 }

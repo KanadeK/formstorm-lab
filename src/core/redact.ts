@@ -19,9 +19,7 @@ function isSecretKey(key: string): boolean {
 
 function redactValue(value: JsonValue): JsonValue {
   if (typeof value === "string") {
-    return SECRET_VALUE_PATTERNS.some((pattern) => pattern.test(value))
-      ? REDACTED_VALUE
-      : value;
+    return SECRET_VALUE_PATTERNS.some((pattern) => pattern.test(value)) ? REDACTED_VALUE : value;
   }
   if (Array.isArray(value)) {
     return value.map(redactValue);

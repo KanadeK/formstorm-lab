@@ -1,7 +1,4 @@
-import {
-  FormAssignmentsSchema,
-  type FormAssignments,
-} from "./models.js";
+import { FormAssignmentsSchema, type FormAssignments } from "./models.js";
 
 export interface FailureProbeResult {
   readonly failed: boolean;
@@ -34,15 +31,22 @@ function stringCandidates(value: string): string[] {
     }
   }
   candidates.delete(value);
-  return [...candidates].sort((left, right) => left.length - right.length || left.localeCompare(right, "en"));
+  return [...candidates].sort(
+    (left, right) => left.length - right.length || left.localeCompare(right, "en"),
+  );
 }
 
 function scalarCandidates(value: FormAssignments[string]): FormAssignments[string][] {
   if (typeof value === "string") return stringCandidates(value);
-  if (typeof value === "number") return [...new Set([0, Math.sign(value), Math.trunc(value)])].filter((entry) => entry !== value);
+  if (typeof value === "number")
+    return [...new Set([0, Math.sign(value), Math.trunc(value)])].filter(
+      (entry) => entry !== value,
+    );
   if (typeof value === "boolean") return value ? [false] : [];
-  if (Array.isArray(value)) return value.length === 0 ? [] : [[], value.slice(0, Math.floor(value.length / 2))];
-  if (value !== null && typeof value === "object") return Object.keys(value).length === 0 ? [] : [{}];
+  if (Array.isArray(value))
+    return value.length === 0 ? [] : [[], value.slice(0, Math.floor(value.length / 2))];
+  if (value !== null && typeof value === "object")
+    return Object.keys(value).length === 0 ? [] : [{}];
   return [];
 }
 

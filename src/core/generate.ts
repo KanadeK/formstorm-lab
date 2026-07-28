@@ -89,13 +89,7 @@ export function parseCivilDate(input: string): CivilDate | undefined {
   const year = Number(match[1]);
   const month = Number(match[2]);
   const day = Number(match[3]);
-  if (
-    year < 1 ||
-    month < 1 ||
-    month > 12 ||
-    day < 1 ||
-    day > daysInMonth(year, month)
-  ) {
+  if (year < 1 || month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month)) {
     return undefined;
   }
   return { year, month, day };
@@ -108,9 +102,7 @@ function formatCivilDate(date: CivilDate): string {
 export function addCivilDays(input: string, delta: number): string {
   const parsed = parseCivilDate(input);
   if (parsed === undefined || !Number.isSafeInteger(delta)) {
-    throw new RangeError(
-      `Invalid civil date or day offset: ${input}, ${String(delta)}`,
-    );
+    throw new RangeError(`Invalid civil date or day offset: ${input}, ${String(delta)}`);
   }
   const date = new Date(0);
   date.setUTCHours(0, 0, 0, 0);
@@ -231,30 +223,46 @@ function localExpectation(field: FieldModel, value: JsonValue): TestExpectation 
     return "observe";
   }
   if (field.kind === "select") {
-    return field.options.some((option) => Object.is(option.value, value))
-      ? "accept"
-      : "reject";
+    return field.options.some((option) => Object.is(option.value, value)) ? "accept" : "reject";
   }
   if (field.kind === "number") {
     if (typeof value !== "number" || !Number.isFinite(value)) return "reject";
     if (field.constraints.integer === true && !Number.isInteger(value)) return "reject";
-    if (field.constraints.minimum !== undefined && value < field.constraints.minimum) return "reject";
-    if (field.constraints.maximum !== undefined && value > field.constraints.maximum) return "reject";
-    if (field.constraints.exclusiveMinimum !== undefined && value <= field.constraints.exclusiveMinimum) return "reject";
-    if (field.constraints.exclusiveMaximum !== undefined && value >= field.constraints.exclusiveMaximum) return "reject";
+    if (field.constraints.minimum !== undefined && value < field.constraints.minimum)
+      return "reject";
+    if (field.constraints.maximum !== undefined && value > field.constraints.maximum)
+      return "reject";
+    if (
+      field.constraints.exclusiveMinimum !== undefined &&
+      value <= field.constraints.exclusiveMinimum
+    )
+      return "reject";
+    if (
+      field.constraints.exclusiveMaximum !== undefined &&
+      value >= field.constraints.exclusiveMaximum
+    )
+      return "reject";
     return "accept";
   }
   if (typeof value !== "string") return "reject";
   const length = Array.from(value).length;
   if (field.required && value.length === 0) return "reject";
-  if (field.constraints.minLength !== undefined && length < field.constraints.minLength) return "reject";
-  if (field.constraints.maxLength !== undefined && length > field.constraints.maxLength) return "reject";
-  if (field.constraints.pattern !== undefined && !new RegExp(field.constraints.pattern, "u").test(value)) return "reject";
+  if (field.constraints.minLength !== undefined && length < field.constraints.minLength)
+    return "reject";
+  if (field.constraints.maxLength !== undefined && length > field.constraints.maxLength)
+    return "reject";
+  if (
+    field.constraints.pattern !== undefined &&
+    !new RegExp(field.constraints.pattern, "u").test(value)
+  )
+    return "reject";
   if (field.kind === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(value)) return "reject";
   if (field.kind === "date") {
     if (parseCivilDate(value) === undefined) return "reject";
-    if (field.constraints.minDate !== undefined && value < field.constraints.minDate) return "reject";
-    if (field.constraints.maxDate !== undefined && value > field.constraints.maxDate) return "reject";
+    if (field.constraints.minDate !== undefined && value < field.constraints.minDate)
+      return "reject";
+    if (field.constraints.maxDate !== undefined && value > field.constraints.maxDate)
+      return "reject";
   }
   return "accept";
 }
@@ -272,26 +280,81 @@ function stringVariants(field: FieldModel, seed: number): Variant[] {
   const max = field.constraints.maxLength;
   const variants: Variant[] = [
     { dimension: "length", variant: "empty", description: "Empty string", value: "" },
-    { dimension: "unicode", variant: "combining", description: "Combining Unicode sequence", value: `Cafe\u0301-${faker.string.alpha(3)}` },
-    { dimension: "unicode", variant: "emoji", description: "Emoji and supplementary-plane input", value: `🙂🧪-${faker.string.alpha(3)}` },
-    { dimension: "rtl", variant: "arabic", description: "Right-to-left Arabic input", value: `مرحبا-${faker.string.alpha(3)}` },
-    { dimension: "rtl", variant: "hebrew", description: "Right-to-left Hebrew input", value: `שלום-${faker.string.alpha(3)}` },
-    { dimension: "whitespace", variant: "spaces", description: "ASCII space-only input", value: " ".repeat(faker.number.int({ min: 2, max: 6 })) },
-    { dimension: "whitespace", variant: "mixed", description: "Mixed tab, newline, and non-breaking space", value: "\t\n\u00a0" },
+    {
+      dimension: "unicode",
+      variant: "combining",
+      description: "Combining Unicode sequence",
+      value: `Cafe\u0301-${faker.string.alpha(3)}`,
+    },
+    {
+      dimension: "unicode",
+      variant: "emoji",
+      description: "Emoji and supplementary-plane input",
+      value: `🙂🧪-${faker.string.alpha(3)}`,
+    },
+    {
+      dimension: "rtl",
+      variant: "arabic",
+      description: "Right-to-left Arabic input",
+      value: `مرحبا-${faker.string.alpha(3)}`,
+    },
+    {
+      dimension: "rtl",
+      variant: "hebrew",
+      description: "Right-to-left Hebrew input",
+      value: `שלום-${faker.string.alpha(3)}`,
+    },
+    {
+      dimension: "whitespace",
+      variant: "spaces",
+      description: "ASCII space-only input",
+      value: " ".repeat(faker.number.int({ min: 2, max: 6 })),
+    },
+    {
+      dimension: "whitespace",
+      variant: "mixed",
+      description: "Mixed tab, newline, and non-breaking space",
+      value: "\t\n\u00a0",
+    },
   ];
   if (min > 0) {
     variants.push(
-      { dimension: "length", variant: "below-min", description: "One code point below minLength", value: asciiOfLength(min - 1, faker, field) },
-      { dimension: "length", variant: "at-min", description: "Exactly minLength code points", value: asciiOfLength(min, faker, field) },
+      {
+        dimension: "length",
+        variant: "below-min",
+        description: "One code point below minLength",
+        value: asciiOfLength(min - 1, faker, field),
+      },
+      {
+        dimension: "length",
+        variant: "at-min",
+        description: "Exactly minLength code points",
+        value: asciiOfLength(min, faker, field),
+      },
     );
   }
   if (max !== undefined) {
     variants.push(
-      { dimension: "length", variant: "at-max", description: "Exactly maxLength code points", value: asciiOfLength(max, faker, field) },
-      { dimension: "length", variant: "above-max", description: "One code point above maxLength", value: asciiOfLength(max + 1, faker, field) },
+      {
+        dimension: "length",
+        variant: "at-max",
+        description: "Exactly maxLength code points",
+        value: asciiOfLength(max, faker, field),
+      },
+      {
+        dimension: "length",
+        variant: "above-max",
+        description: "One code point above maxLength",
+        value: asciiOfLength(max + 1, faker, field),
+      },
     );
   } else {
-    variants.push({ dimension: "length", variant: "long", description: "Long unconstrained string", value: asciiOfLength(256, faker, field) });
+    variants.push({
+      dimension: "length",
+      variant: "long",
+      description: "Long unconstrained string",
+      value: asciiOfLength(256, faker, field),
+    });
   }
   return variants;
 }
@@ -301,19 +364,49 @@ function fieldVariants(field: FieldModel, seed: number): Variant[] {
   if (field.kind === "date") {
     const leapYear = faker.helpers.arrayElement([1996, 2000, 2004, 2024]);
     const variants: Variant[] = [
-      { dimension: "date", variant: "leap-day", description: "Valid Gregorian leap day", value: `${String(leapYear)}-02-29` },
-      { dimension: "date", variant: "invalid-non-leap-day", description: "Invalid Gregorian civil date", value: "2023-02-29" },
+      {
+        dimension: "date",
+        variant: "leap-day",
+        description: "Valid Gregorian leap day",
+        value: `${String(leapYear)}-02-29`,
+      },
+      {
+        dimension: "date",
+        variant: "invalid-non-leap-day",
+        description: "Invalid Gregorian civil date",
+        value: "2023-02-29",
+      },
     ];
     if (field.constraints.minDate !== undefined) {
       variants.push(
-        { dimension: "date", variant: "at-min", description: "Date at formatMinimum", value: field.constraints.minDate },
-        { dimension: "date", variant: "below-min", description: "Date before formatMinimum", value: addCivilDays(field.constraints.minDate, -1) },
+        {
+          dimension: "date",
+          variant: "at-min",
+          description: "Date at formatMinimum",
+          value: field.constraints.minDate,
+        },
+        {
+          dimension: "date",
+          variant: "below-min",
+          description: "Date before formatMinimum",
+          value: addCivilDays(field.constraints.minDate, -1),
+        },
       );
     }
     if (field.constraints.maxDate !== undefined) {
       variants.push(
-        { dimension: "date", variant: "at-max", description: "Date at formatMaximum", value: field.constraints.maxDate },
-        { dimension: "date", variant: "above-max", description: "Date after formatMaximum", value: addCivilDays(field.constraints.maxDate, 1) },
+        {
+          dimension: "date",
+          variant: "at-max",
+          description: "Date at formatMaximum",
+          value: field.constraints.maxDate,
+        },
+        {
+          dimension: "date",
+          variant: "above-max",
+          description: "Date after formatMaximum",
+          value: addCivilDays(field.constraints.maxDate, 1),
+        },
       );
     }
     return variants;
@@ -321,37 +414,97 @@ function fieldVariants(field: FieldModel, seed: number): Variant[] {
   if (field.kind === "email") {
     return [
       ...stringVariants(field, seed),
-      { dimension: "email", variant: "plus-address", description: "Valid plus-addressed email", value: `user+${faker.string.alphanumeric(6)}@example.test` },
-      { dimension: "email", variant: "idn-domain", description: "Internationalized domain email", value: `user@xn--bcher-kva.example` },
-      { dimension: "email", variant: "missing-at", description: "Malformed email without at-sign", value: `invalid-${faker.string.alphanumeric(5)}.example.test` },
+      {
+        dimension: "email",
+        variant: "plus-address",
+        description: "Valid plus-addressed email",
+        value: `user+${faker.string.alphanumeric(6)}@example.test`,
+      },
+      {
+        dimension: "email",
+        variant: "idn-domain",
+        description: "Internationalized domain email",
+        value: `user@xn--bcher-kva.example`,
+      },
+      {
+        dimension: "email",
+        variant: "missing-at",
+        description: "Malformed email without at-sign",
+        value: `invalid-${faker.string.alphanumeric(5)}.example.test`,
+      },
     ];
   }
   if (field.kind === "file") {
     return [
-      { dimension: "filename", variant: "unicode", description: "Unicode filename", value: `résumé-文件-${faker.string.alphanumeric(4)}.pdf` },
-      { dimension: "filename", variant: "long", description: "Long filename", value: `${faker.string.alpha({ length: 240 })}.txt` },
-      { dimension: "filename", variant: "path-like", description: "Path-like filename", value: `..\\${faker.string.alphanumeric(5)}.txt` },
+      {
+        dimension: "filename",
+        variant: "unicode",
+        description: "Unicode filename",
+        value: `résumé-文件-${faker.string.alphanumeric(4)}.pdf`,
+      },
+      {
+        dimension: "filename",
+        variant: "long",
+        description: "Long filename",
+        value: `${faker.string.alpha({ length: 240 })}.txt`,
+      },
+      {
+        dimension: "filename",
+        variant: "path-like",
+        description: "Path-like filename",
+        value: `..\\${faker.string.alphanumeric(5)}.txt`,
+      },
     ];
   }
   if (field.kind === "number") {
     const step = field.constraints.integer === true ? 1 : (field.constraints.multipleOf ?? 0.5);
     const variants: Variant[] = [
       { dimension: "number", variant: "zero", description: "Numeric zero", value: 0 },
-      { dimension: "number", variant: "seeded", description: "Seeded finite number", value: faker.number.int({ min: -1000, max: 1000 }) },
+      {
+        dimension: "number",
+        variant: "seeded",
+        description: "Seeded finite number",
+        value: faker.number.int({ min: -1000, max: 1000 }),
+      },
     ];
     if (field.constraints.integer === true) {
-      variants.push({ dimension: "number", variant: "fractional", description: "Fraction supplied to integer field", value: 1.5 });
+      variants.push({
+        dimension: "number",
+        variant: "fractional",
+        description: "Fraction supplied to integer field",
+        value: 1.5,
+      });
     }
     if (field.constraints.minimum !== undefined) {
       variants.push(
-        { dimension: "number", variant: "at-min", description: "Number at minimum", value: field.constraints.minimum },
-        { dimension: "number", variant: "below-min", description: "Number below minimum", value: field.constraints.minimum - step },
+        {
+          dimension: "number",
+          variant: "at-min",
+          description: "Number at minimum",
+          value: field.constraints.minimum,
+        },
+        {
+          dimension: "number",
+          variant: "below-min",
+          description: "Number below minimum",
+          value: field.constraints.minimum - step,
+        },
       );
     }
     if (field.constraints.maximum !== undefined) {
       variants.push(
-        { dimension: "number", variant: "at-max", description: "Number at maximum", value: field.constraints.maximum },
-        { dimension: "number", variant: "above-max", description: "Number above maximum", value: field.constraints.maximum + step },
+        {
+          dimension: "number",
+          variant: "at-max",
+          description: "Number at maximum",
+          value: field.constraints.maximum,
+        },
+        {
+          dimension: "number",
+          variant: "above-max",
+          description: "Number above maximum",
+          value: field.constraints.maximum + step,
+        },
       );
     }
     return variants;
@@ -359,8 +512,18 @@ function fieldVariants(field: FieldModel, seed: number): Variant[] {
   if (field.kind === "select") {
     const chosen = faker.helpers.arrayElement(field.options);
     return [
-      { dimension: "select", variant: "valid-option", description: "Seeded declared option", value: chosen.value },
-      { dimension: "select", variant: "invalid-option", description: "Value outside declared options", value: `__formstorm_invalid_${faker.string.alphanumeric(6)}__` },
+      {
+        dimension: "select",
+        variant: "valid-option",
+        description: "Seeded declared option",
+        value: chosen.value,
+      },
+      {
+        dimension: "select",
+        variant: "invalid-option",
+        description: "Value outside declared options",
+        value: `__formstorm_invalid_${faker.string.alphanumeric(6)}__`,
+      },
     ];
   }
   return stringVariants(field, seed);

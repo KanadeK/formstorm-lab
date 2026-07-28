@@ -1,0 +1,45 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "23 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-and-secret-audit:
+    name: Dependency and secret audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Scan tracked files for secrets
+        run: npm run scan:secrets
+
+      - name: Check repository history for forbidden co-authors
+        shell: bash
+        run: |
+          if git log --format=%B | grep -i '^Co-authored-by:'; then
+            echo "Forbidden Co-authored-by trailer found."
+            exit 1
+          fi

@@ -51,10 +51,7 @@ export function assertTargetAllowed(
     ...new Set(allowlist.map((allowed) => normalizeOrigin(allowed))),
   ].sort();
   if (!normalizedAllowed.includes(parsedTarget.origin.toLowerCase())) {
-    throw new AllowlistPolicyError(
-      parsedTarget.origin.toLowerCase(),
-      normalizedAllowed,
-    );
+    throw new AllowlistPolicyError(parsedTarget.origin.toLowerCase(), normalizedAllowed);
   }
   return parsedTarget;
 }

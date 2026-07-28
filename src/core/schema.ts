@@ -210,21 +210,12 @@ function resolveNode(
   seenRefs: ReadonlySet<string> = new Set<string>(),
 ): Record<string, unknown> {
   if (!isRecord(node)) {
-    throw extractionError(
-      "invalid-schema-node",
-      path,
-      `Schema node at ${path} must be an object`,
-    );
+    throw extractionError("invalid-schema-node", path, `Schema node at ${path} must be an object`);
   }
 
   if (typeof node.$ref !== "string") {
     if (node.$ref !== undefined) {
-      throw extractionError(
-        "invalid-ref",
-        `${path}/$ref`,
-        "$ref must be a string",
-        "$ref",
-      );
+      throw extractionError("invalid-ref", `${path}/$ref`, "$ref must be a string", "$ref");
     }
     return node;
   }
@@ -250,9 +241,7 @@ function resolveNode(
   const nextSeen = new Set(seenRefs);
   nextSeen.add(ref);
   const resolved = resolveNode(resolvePointer(root, ref), root, ref, nextSeen);
-  const siblings = Object.fromEntries(
-    Object.entries(node).filter(([key]) => key !== "$ref"),
-  );
+  const siblings = Object.fromEntries(Object.entries(node).filter(([key]) => key !== "$ref"));
   return { ...resolved, ...siblings };
 }
 
@@ -266,12 +255,7 @@ function readOptionalString(
     return undefined;
   }
   if (typeof value !== "string") {
-    throw extractionError(
-      "invalid-keyword",
-      `${path}/${key}`,
-      `${key} must be a string`,
-      key,
-    );
+    throw extractionError("invalid-keyword", `${path}/${key}`, `${key} must be a string`, key);
   }
   return value;
 }
@@ -313,19 +297,10 @@ function readOptionalNonNegativeInteger(
   return value;
 }
 
-function readJsonValue(
-  value: unknown,
-  path: string,
-  keyword: string,
-): JsonValue {
+function readJsonValue(value: unknown, path: string, keyword: string): JsonValue {
   const parsed = JsonValueSchema.safeParse(value);
   if (!parsed.success) {
-    throw extractionError(
-      "invalid-keyword",
-      path,
-      `${keyword} must contain a JSON value`,
-      keyword,
-    );
+    throw extractionError("invalid-keyword", path, `${keyword} must contain a JSON value`, keyword);
   }
   return parsed.data;
 }
@@ -367,10 +342,7 @@ function optionLabel(value: FieldOption["value"]): string {
   return String(value);
 }
 
-function extractOptions(
-  node: Record<string, unknown>,
-  path: string,
-): FieldOption[] | undefined {
+function extractOptions(node: Record<string, unknown>, path: string): FieldOption[] | undefined {
   let values: unknown[] | undefined;
   if (hasOwn(node, "enum")) {
     if (!Array.isArray(node.enum) || node.enum.length === 0) {
@@ -449,12 +421,7 @@ function extractConstraints(
   const provenance: ConstraintProvenance[] = [];
 
   const assignNumber = (
-    key:
-      | "minimum"
-      | "maximum"
-      | "exclusiveMinimum"
-      | "exclusiveMaximum"
-      | "multipleOf",
+    key: "minimum" | "maximum" | "exclusiveMinimum" | "exclusiveMaximum" | "multipleOf",
   ): void => {
     const value = readOptionalFiniteNumber(node, key, path);
     if (value !== undefined) {
@@ -693,10 +660,7 @@ function parseRequired(root: Record<string, unknown>): Set<string> {
   if (root.required === undefined) {
     return new Set<string>();
   }
-  if (
-    !Array.isArray(root.required) ||
-    root.required.some((entry) => typeof entry !== "string")
-  ) {
+  if (!Array.isArray(root.required) || root.required.some((entry) => typeof entry !== "string")) {
     throw extractionError(
       "invalid-required",
       "#/required",
@@ -721,11 +685,7 @@ export function extractFormModel(
   options: ExtractFormModelOptions = {},
 ): ExtractionResult {
   if (!isRecord(schema)) {
-    throw extractionError(
-      "invalid-root-schema",
-      "#",
-      "The JSON Schema root must be an object",
-    );
+    throw extractionError("invalid-root-schema", "#", "The JSON Schema root must be an object");
   }
 
   const unsupportedMode = options.unsupported ?? "error";
@@ -769,9 +729,7 @@ export function extractFormModel(
     left.localeCompare(right, "en"),
   )) {
     try {
-      fields.push(
-        extractField(name, root.properties[name], schema, required, diagnostics),
-      );
+      fields.push(extractField(name, root.properties[name], schema, required, diagnostics));
     } catch (error) {
       if (error instanceof UnsupportedSchemaError && unsupportedMode === "diagnostic") {
         diagnostics.push(error.diagnostic);
@@ -805,8 +763,7 @@ export function extractFormModel(
       .map((entry) => SchemaDiagnosticSchema.parse(entry))
       .sort(
         (left, right) =>
-          left.path.localeCompare(right.path, "en") ||
-          left.code.localeCompare(right.code, "en"),
+          left.path.localeCompare(right.path, "en") || left.code.localeCompare(right.code, "en"),
       ),
   };
 }

@@ -7,7 +7,9 @@ const checks = [
   ["run", "lint"],
   ["run", "typecheck"],
   ["run", "test:coverage"],
+  ["run", "test:e2e"],
   ["run", "build"],
+  ["run", "scan:secrets"],
 ];
 
 for (const args of checks) {
