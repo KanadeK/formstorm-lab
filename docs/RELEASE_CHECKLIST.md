@@ -96,8 +96,8 @@ npm run package
 
 - [ ] `dist-release/formstorm-lab-0.1.0-node-any.tgz` exists.
 - [ ] `dist-release/formstorm-lab-0.1.0-cli-node-any.zip` exists.
-- [ ] `dist-release/formstorm-lab-0.1.0-fixture-app.zip` exists.
-- [ ] `dist-release/formstorm-lab-0.1.0-playwright-evidence.zip` exists.
+- [ ] `dist-release/formstorm-lab-0.1.0-fixture-app-any.zip` exists.
+- [ ] `dist-release/formstorm-lab-0.1.0-playwright-evidence-any.zip` exists.
 - [ ] The tarball was installed in a clean temporary directory and its version entry point ran.
 - [ ] `dist-release/SHA256SUMS.txt` has one matching SHA-256 entry for each asset.
 - [ ] Archive inspection finds no environment file, credential, cache, private database, or unrelated build output.

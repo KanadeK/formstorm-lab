@@ -2,7 +2,7 @@
 
 All notable changes to FormStorm Lab are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases use [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2026-07-24
+## [0.1.0] - 2026-07-28
 
 ### Added
 
@@ -24,6 +24,8 @@ All notable changes to FormStorm Lab are documented here. The format follows [Ke
 
 ### Security
 
+- Updated AJV to `8.20.0` and the ESLint/tsup build chain to fixed dependency
+  versions; the release candidate reports zero npm audit findings.
 - Browser contexts are ephemeral and do not import a user's saved profile or authentication state.
 - Service workers are blocked in scan contexts.
 - Report values with sensitive key names and common token patterns are redacted before JSON, HTML, or JUnit serialization.

@@ -23,6 +23,11 @@ const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"
 const slug = packageJson.name;
 const version = packageJson.version;
 const releaseDirectory = resolve(root, "dist-release");
+const npmEnvironment = {
+  ...process.env,
+  npm_config_cache: join(root, "node_modules", ".cache", "formstorm-npm"),
+  npm_config_registry: "https://registry.npmjs.org",
+};
 
 if (
   releaseDirectory !== join(root, "dist-release") ||
@@ -37,7 +42,10 @@ await mkdir(releaseDirectory, { recursive: true });
 await runNpm(["run", "demo"], { cwd: root });
 await runNpm(["run", "test:e2e"], { cwd: root });
 await runNpm(["run", "build"], { cwd: root });
-await runNpm(["pack", "--pack-destination", releaseDirectory], { cwd: root });
+await runNpm(["pack", "--pack-destination", releaseDirectory], {
+  cwd: root,
+  env: npmEnvironment,
+});
 
 const defaultTarball = join(releaseDirectory, `${slug}-${version}.tgz`);
 const releaseTarball = join(releaseDirectory, `${slug}-${version}-node-any.tgz`);
@@ -79,8 +87,15 @@ const smokeDirectory = await mkdtemp(join(tmpdir(), "formstorm-package-"));
 try {
   const smokeTarball = join(smokeDirectory, basename(releaseTarball));
   await copyFile(releaseTarball, smokeTarball);
-  await runNpm(["init", "-y"], { cwd: smokeDirectory, stdio: "ignore" });
-  await runNpm(["install", "--ignore-scripts", smokeTarball], { cwd: smokeDirectory });
+  await runNpm(["init", "-y"], {
+    cwd: smokeDirectory,
+    env: npmEnvironment,
+    stdio: "ignore",
+  });
+  await runNpm(["install", "--ignore-scripts", smokeTarball], {
+    cwd: smokeDirectory,
+    env: npmEnvironment,
+  });
   await run(
     process.execPath,
     [join(smokeDirectory, "node_modules", slug, "dist", "node", "cli.js"), "--version"],
